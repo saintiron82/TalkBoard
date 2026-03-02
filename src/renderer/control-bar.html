@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'">
+  <link rel="stylesheet" href="control-bar.css">
+</head>
+<body>
+  <div id="control-bar">
+    <!-- Row 1: Prompt + Controls -->
+    <div id="input-row">
+      <input type="text" id="prompt-input" placeholder="토론 주제를 입력하세요..." />
+      <select id="mode-select">
+        <option value="reactive">Reactive</option>
+        <option value="sequential">Sequential</option>
+        <option value="parallel">Parallel</option>
+      </select>
+      <select id="rounds-select">
+        <option value="1">1R</option>
+        <option value="3" selected>3R</option>
+        <option value="5">5R</option>
+        <option value="10">10R</option>
+      </select>
+      <label id="bridge-label" title="Claude를 CLI로 실행">
+        <input type="checkbox" id="bridge-check" /> CLI
+      </label>
+      <button id="google-login-btn" title="Google 로그인 → 모든 LLM에 주입">G</button>
+      <button id="send-btn">시작</button>
+      <button id="resume-btn" class="hidden">이어서</button>
+      <button id="stop-btn" class="hidden">중지</button>
+      <button id="reset-btn" class="hidden">새 주제</button>
+      <div id="round-info"></div>
+    </div>
+
+    <!-- Row 2: Dynamic Slot Configuration -->
+    <div id="slot-row">
+      <span class="config-label">Slots</span>
+      <div id="slot-container"></div>
+      <button id="add-slot-btn" title="슬롯 추가">+</button>
+      <div id="search-area">
+        <input type="text" id="search-input" placeholder="검색..." />
+        <div id="search-results" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+  <script src="control-bar.js"></script>
+</body>
+</html>

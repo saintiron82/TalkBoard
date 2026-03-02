@@ -1,0 +1,29 @@
+{
+  "name": "talkboard",
+  "version": "1.0.0",
+  "description": "Multi-AI debate orchestrator — run ChatGPT, Gemini, and Claude side by side in an Electron app",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "dev": "npm run build && electron .",
+    "build": "tsc && tsc -p tsconfig.renderer.json && cp src/renderer/*.html src/renderer/*.css dist/renderer/",
+    "start": "electron .",
+    "watch": "tsc -w"
+  },
+  "keywords": [
+    "electron",
+    "ai",
+    "debate",
+    "chatgpt",
+    "gemini",
+    "claude",
+    "orchestrator",
+    "multi-ai"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^34.0.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^22"
+  }
+}
