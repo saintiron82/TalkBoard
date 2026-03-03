@@ -308,11 +308,11 @@ export class PanelManager {
   }
 
   /** Highlight or unhighlight a panel to indicate whose turn it is. */
-  setSlotHighlight(slotId: SlotId, active: boolean): void {
+  setSlotHighlight(slotId: SlotId, active: boolean, color = "#3b82f6"): void {
     const entry = this.panels.get(slotId);
     if (!entry || entry.view.webContents.isDestroyed()) return;
     const css = active
-      ? `document.documentElement.style.outline="3px solid #3b82f6";document.documentElement.style.outlineOffset="-3px";`
+      ? `document.documentElement.style.outline="3px solid ${color}";document.documentElement.style.outlineOffset="-3px";`
       : `document.documentElement.style.outline="";document.documentElement.style.outlineOffset="";`;
     entry.view.webContents.executeJavaScript(css).catch(() => {});
   }

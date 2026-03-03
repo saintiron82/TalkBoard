@@ -52,7 +52,7 @@ const CHATGPT_SELECTORS = {
   },
 };
 
-export function buildChatGPTInjection(prompt: string, roundId: string, slotId: string): string {
+export function buildChatGPTInjection(prompt: string, roundId: string, slotId: string, semiAuto = false): string {
   const selectors = JSON.stringify(CHATGPT_SELECTORS);
   const escapedPrompt = JSON.stringify(prompt);
 
@@ -64,6 +64,7 @@ var prompt = ${escapedPrompt};
 var roundId = ${JSON.stringify(roundId)};
 var slotId = ${JSON.stringify(slotId)};
 var PROVIDER = "gpt";
+var semiAuto = ${semiAuto};
 
 function step(msg) {
   console.log("[TalkAgent:gpt] " + msg);
@@ -93,11 +94,16 @@ try {
 
   step("Input content after inject: " + (input.textContent || input.value || "").slice(0, 50));
 
-  var sent = clickButton(SELECTORS.sendButton);
-  step("Send button clicked: " + sent);
-  if (!sent) {
-    step("Trying Enter key...");
-    pressEnter(input);
+  if (semiAuto) {
+    step("Semi-auto mode — waiting for manual send");
+    window.__talkagentIPC.sendToMain("provider:waitingManualSend", { provider: PROVIDER, slotId: slotId });
+  } else {
+    var sent = clickButton(SELECTORS.sendButton);
+    step("Send button clicked: " + sent);
+    if (!sent) {
+      step("Trying Enter key...");
+      pressEnter(input);
+    }
   }
 
   step("Waiting for response...");

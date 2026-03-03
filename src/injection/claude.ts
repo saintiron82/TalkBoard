@@ -67,7 +67,7 @@ const CLAUDE_SELECTORS = {
   },
 };
 
-export function buildClaudeInjection(prompt: string, roundId: string, slotId: string): string {
+export function buildClaudeInjection(prompt: string, roundId: string, slotId: string, semiAuto = false): string {
   const selectors = JSON.stringify(CLAUDE_SELECTORS);
   const escapedPrompt = JSON.stringify(prompt);
 
@@ -79,6 +79,7 @@ var prompt = ${escapedPrompt};
 var roundId = ${JSON.stringify(roundId)};
 var slotId = ${JSON.stringify(slotId)};
 var PROVIDER = "claude";
+var semiAuto = ${semiAuto};
 
 function step(msg) {
   console.log("[TalkAgent:claude] " + msg);
@@ -174,11 +175,16 @@ try {
 
   step("Input content after inject: " + (input.textContent || "").slice(0, 50));
 
-  var sent = clickButton(SELECTORS.sendButton);
-  step("Send button clicked: " + sent);
-  if (!sent) {
-    step("Trying Enter key...");
-    pressEnter(input);
+  if (semiAuto) {
+    step("Semi-auto mode — waiting for manual send");
+    window.__talkagentIPC.sendToMain("provider:waitingManualSend", { provider: PROVIDER, slotId: slotId });
+  } else {
+    var sent = clickButton(SELECTORS.sendButton);
+    step("Send button clicked: " + sent);
+    if (!sent) {
+      step("Trying Enter key...");
+      pressEnter(input);
+    }
   }
 
   step("Waiting for response...");

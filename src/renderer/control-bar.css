@@ -41,7 +41,7 @@ body {
   cursor: pointer;
 }
 
-#bridge-label {
+#semi-auto-label, #bridge-label {
   font-size: 10px;
   color: #a1a1aa;
   display: flex;
@@ -50,7 +50,7 @@ body {
   cursor: pointer;
   flex-shrink: 0;
 }
-#bridge-check { width: 14px; height: 14px; cursor: pointer; }
+#semi-auto-check, #bridge-check { width: 14px; height: 14px; cursor: pointer; }
 
 button {
   padding: 8px 14px;
@@ -153,6 +153,8 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .slot-status.ready { background: #065f46; color: #6ee7b7; }
 .slot-status.error { background: #7f1d1d; color: #fca5a5; }
 .slot-status.working { background: #92400e; color: #fcd34d; }
+.slot-status.manual-send { background: #78350f; color: #fbbf24; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
 .slot-type-select {
   padding: 2px 4px;

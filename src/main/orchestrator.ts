@@ -88,6 +88,12 @@ export class Orchestrator {
       }
     });
 
+    ipcMain.on("provider:waitingManualSend", (_event, data: { provider: string; slotId: string }) => {
+      console.log(`[Orchestrator] Semi-auto: waiting for manual send on ${data.slotId}`);
+      this.panelManager.setSlotHighlight(data.slotId, true, "#f59e0b");
+      this.broadcastStatus({ slots: { [data.slotId]: "manual-send" } });
+    });
+
     ipcMain.on("provider:notLoggedIn", (_event, data: { provider: Provider }) => {
       console.warn(`[Orchestrator] Not logged in: ${data.provider}`);
       for (const [key, pending] of this.pendingResponses) {
@@ -108,6 +114,7 @@ export class Orchestrator {
       slots = [],
       maxRounds = 1,
       useBridge = false,
+      semiAuto = false,
     } = args;
 
     if (slots.length === 0) {
@@ -130,6 +137,7 @@ export class Orchestrator {
       status: "running",
       abortController: new AbortController(),
       useBridge,
+      semiAuto,
       failureCounts,
       waitingSlotId: null,
       userInputResolver: null,
@@ -599,10 +607,11 @@ export class Orchestrator {
   }
 
   private buildScript(provider: Provider, prompt: string, roundId: string, slotId: string): string {
+    const semi = this.state?.semiAuto ?? false;
     switch (provider) {
-      case "gpt": return buildChatGPTInjection(prompt, roundId, slotId);
-      case "gemini": return buildGeminiInjection(prompt, roundId, slotId);
-      case "claude": return buildClaudeInjection(prompt, roundId, slotId);
+      case "gpt": return buildChatGPTInjection(prompt, roundId, slotId, semi);
+      case "gemini": return buildGeminiInjection(prompt, roundId, slotId, semi);
+      case "claude": return buildClaudeInjection(prompt, roundId, slotId, semi);
     }
   }
 

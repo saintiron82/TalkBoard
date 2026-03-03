@@ -8,6 +8,7 @@
 const promptInput = document.getElementById("prompt-input") as HTMLInputElement;
 const modeSelect = document.getElementById("mode-select") as HTMLSelectElement;
 const roundsSelect = document.getElementById("rounds-select") as HTMLSelectElement;
+const semiAutoCheck = document.getElementById("semi-auto-check") as HTMLInputElement;
 const bridgeCheck = document.getElementById("bridge-check") as HTMLInputElement;
 const sendBtn = document.getElementById("send-btn") as HTMLButtonElement;
 const resumeBtn = document.getElementById("resume-btn") as HTMLButtonElement;
@@ -315,8 +316,8 @@ window.talkagent.onStatusUpdate((status: unknown) => {
       const statusEl = slotContainer.querySelector(`[data-slot-id="${slotId}"] .slot-status`) as HTMLElement | null;
       if (statusEl) {
         // Remove previous state classes, add new one
-        statusEl.classList.remove("ready", "working", "error");
-        if (state === "ready" || state === "working" || state === "error") {
+        statusEl.classList.remove("ready", "working", "error", "manual-send");
+        if (state === "ready" || state === "working" || state === "error" || state === "manual-send") {
           statusEl.classList.add(state);
         }
       }
@@ -394,6 +395,7 @@ async function handleSend(): Promise<void> {
       slots: slotConfigs,
       maxRounds,
       useBridge: bridgeCheck.checked,
+      semiAuto: semiAutoCheck.checked,
     })) as { error?: string };
 
     if (result.error) {

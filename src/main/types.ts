@@ -28,6 +28,7 @@ export interface StartArgs {
   slots: SlotConfig[];
   maxRounds: number;
   useBridge?: boolean;
+  semiAuto?: boolean;
 }
 
 export interface RoundResponse {
@@ -50,6 +51,7 @@ export interface DebateState {
   status: "running" | "paused" | "completed" | "error" | "waiting-for-user";
   abortController: AbortController;
   useBridge: boolean;
+  semiAuto: boolean;
   /** Consecutive failure count per slot */
   failureCounts: Record<SlotId, number>;
   /** Which slot is currently waiting for user input */
