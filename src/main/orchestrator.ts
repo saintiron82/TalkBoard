@@ -573,19 +573,24 @@ export class Orchestrator {
       });
 
       // Inactivity timeout — reset by heartbeat listener
+      // Semi-auto: 10 min (user sends manually), Auto: 30s
+      const isSemiAuto = this.state?.semiAuto ?? false;
+      const inactivityMs = isSemiAuto ? 600_000 : INACTIVITY_TIMEOUT_MS;
+      const hardCapMs = isSemiAuto ? 600_000 : HARD_CAP_MS;
+
       const inactivityTimer = setTimeout(() => {
         if (this.pendingResponses.has(key)) {
-          done(reject, new Error(`Inactivity timeout ${slotId} (${provider}) (${INACTIVITY_TIMEOUT_MS / 1000}s no activity)`));
+          done(reject, new Error(`Inactivity timeout ${slotId} (${provider}) (${inactivityMs / 1000}s no activity)`));
         }
-      }, INACTIVITY_TIMEOUT_MS);
+      }, inactivityMs);
       this.pendingTimeouts.set(key, inactivityTimer);
 
       // Hard cap — absolute maximum wait
       const hardCap = setTimeout(() => {
         if (this.pendingResponses.has(key)) {
-          done(reject, new Error(`Hard cap timeout ${slotId} (${provider}) (${HARD_CAP_MS / 1000}s)`));
+          done(reject, new Error(`Hard cap timeout ${slotId} (${provider}) (${hardCapMs / 1000}s)`));
         }
-      }, HARD_CAP_MS);
+      }, hardCapMs);
 
       const script = this.buildScript(provider, prompt, roundId, slotId);
       this.panelManager.executeOnSlot(slotId, script)

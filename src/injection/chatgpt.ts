@@ -114,6 +114,7 @@ try {
     excludeSelectors: SELECTORS.thinkingExclude,
     initialCount: initialCount,
     minResponseLength: 1,
+    semiAuto: semiAuto,
   });
 
   step("Response captured, length: " + responseText.length);

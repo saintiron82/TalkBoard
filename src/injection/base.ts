@@ -171,6 +171,7 @@ function observeResponse(opts) {
   var excludeSelectors = opts.excludeSelectors || [];
   var minResponseLength = opts.minResponseLength || 0;
   var responseContentSelector = opts.responseContentSelector || [];
+  var semiAuto = opts.semiAuto || false;
 
   return new Promise(function(resolve, reject) {
     var debounceTimer = null;
@@ -314,9 +315,9 @@ function observeResponse(opts) {
     }
 
     // Inactivity-based timeout: reset on every DOM mutation.
-    // Only timeout after INACTIVITY_TIMEOUT_MS of no DOM changes.
-    var INACTIVITY_TIMEOUT_MS = 30000;
-    var HARD_CAP_MS = timeoutMs;  // absolute max as safety net
+    // Semi-auto mode: no inactivity timeout (user sends manually)
+    var INACTIVITY_TIMEOUT_MS = semiAuto ? 600000 : 30000;
+    var HARD_CAP_MS = semiAuto ? 600000 : timeoutMs;
 
     function resetInactivityTimeout() {
       if (resolved) return;
