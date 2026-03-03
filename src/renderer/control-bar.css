@@ -178,6 +178,17 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 .slot-instruction:focus { border-color: #71717a; }
 
+.slot-reset-btn {
+  padding: 0 4px;
+  background: none;
+  border: none;
+  color: #71717a;
+  font-size: 13px;
+  cursor: pointer;
+  line-height: 1;
+}
+.slot-reset-btn:hover { color: #93c5fd; }
+
 .slot-remove-btn {
   padding: 0 4px;
   background: none;

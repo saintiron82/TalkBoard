@@ -129,6 +129,16 @@ function renderSlots(): void {
       slot.instruction = instInput.value;
     });
 
+    // Reset panel button (navigate back to original URL)
+    const resetPanelBtn = document.createElement("button");
+    resetPanelBtn.className = "slot-reset-btn";
+    resetPanelBtn.textContent = "\u21ba";
+    resetPanelBtn.title = "패널 초기화";
+    if (slot.type === "user") resetPanelBtn.style.display = "none";
+    resetPanelBtn.addEventListener("click", () => {
+      window.talkagent.resetPanel(slot.id);
+    });
+
     // Remove button
     const removeBtn = document.createElement("button");
     removeBtn.className = "slot-remove-btn";
@@ -164,6 +174,7 @@ function renderSlots(): void {
     item.appendChild(status);
     item.appendChild(select);
     item.appendChild(instInput);
+    item.appendChild(resetPanelBtn);
     item.appendChild(removeBtn);
     slotContainer.appendChild(item);
   }

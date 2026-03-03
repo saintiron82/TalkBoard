@@ -50,26 +50,36 @@ export function getUnseenResponses(
 }
 
 /**
- * Build prompt: instruction (Round 1 only) + unseen responses + base prompt.
+ * Build prompt: [instruction] → [base prompt] → [unseen responses]
+ *
+ * Order rationale:
+ *   1. Instruction (role/persona) — AI understands its role first
+ *   2. Base prompt (task/question) — AI understands what to do
+ *   3. Previous responses — AI sees conversation context last
  */
 export function buildPrompt(
   basePrompt: string,
   unseen: RoundResponse[],
   instruction?: string
 ): string {
-  let parts = "";
+  const parts: string[] = [];
 
-  if (instruction) parts += `${instruction}\n`;
+  // 1. Role/persona instruction
+  if (instruction) parts.push(instruction);
 
-  for (const r of unseen) {
-    parts += `[${r.label.toUpperCase()}] ${truncate(r.content, RESPONSE_LIMIT)}\n`;
+  // 2. Base prompt (task/question)
+  parts.push(basePrompt);
+
+  // 3. Previous responses (conversation context)
+  if (unseen.length > 0) {
+    const responses = unseen
+      .map(r => `[${r.label.toUpperCase()}] ${truncate(r.content, RESPONSE_LIMIT)}`)
+      .join("\n");
+    parts.push(responses);
   }
 
-  if (parts) {
-    const full = `${parts}\n${basePrompt}`;
-    return enforceMaxLength(full, basePrompt);
-  }
-  return basePrompt;
+  const full = parts.join("\n\n");
+  return enforceMaxLength(full, basePrompt);
 }
 
 /**

@@ -17,6 +17,11 @@ contextBridge.exposeInMainWorld("talkagent", {
   googleLogin: () =>
     ipcRenderer.invoke("google:login"),
 
+  resetPanel: (slotId: string) =>
+    ipcRenderer.invoke("panel:reset", slotId),
+  goBackPanel: (slotId: string) =>
+    ipcRenderer.invoke("panel:goBack", slotId),
+
   searchVault: (query: string) =>
     ipcRenderer.invoke("vault:search", query),
   listTopics: () =>

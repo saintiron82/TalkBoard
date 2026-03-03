@@ -52,6 +52,17 @@ export function registerIpcHandlers(
     return listSessions(topicId);
   });
 
+  // Panel navigation controls
+  ipcMain.handle("panel:reset", async (_event, slotId: string) => {
+    panelManager.resetSlot(slotId);
+    return { ok: true };
+  });
+
+  ipcMain.handle("panel:goBack", async (_event, slotId: string) => {
+    panelManager.goBackSlot(slotId);
+    return { ok: true };
+  });
+
   // Google login → inject cookies to all LLM partitions
   ipcMain.handle("google:login", async () => {
     return googleLoginAndInject(panelManager);

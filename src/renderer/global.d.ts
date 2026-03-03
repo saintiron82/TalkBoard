@@ -37,6 +37,8 @@ interface Window {
     reset: () => Promise<void>;
     configureSlots: (slots: unknown) => Promise<unknown>;
     googleLogin: () => Promise<{ ok: boolean; error?: string }>;
+    resetPanel: (slotId: string) => Promise<{ ok: boolean }>;
+    goBackPanel: (slotId: string) => Promise<{ ok: boolean }>;
     searchVault: (query: string) => Promise<SearchResult[]>;
     listTopics: () => Promise<TopicSummary[]>;
     listSessions: (topicId: string) => Promise<SessionSummary[]>;

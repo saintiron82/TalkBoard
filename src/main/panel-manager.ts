@@ -278,6 +278,26 @@ export class PanelManager {
     }
   }
 
+  /** Navigate slot back to its original provider URL (fresh start). */
+  resetSlot(slotId: SlotId): void {
+    const entry = this.panels.get(slotId);
+    if (!entry || entry.type === "user" || entry.view.webContents.isDestroyed()) return;
+    const meta = PROVIDER_META[entry.type as Provider];
+    if (meta) {
+      console.log(`[PanelManager] Resetting slot to origin: ${slotId} → ${meta.url}`);
+      entry.view.webContents.loadURL(meta.url);
+    }
+  }
+
+  /** Navigate slot back in history (like browser back button). */
+  goBackSlot(slotId: SlotId): void {
+    const entry = this.panels.get(slotId);
+    if (!entry || entry.view.webContents.isDestroyed()) return;
+    if (entry.view.webContents.navigationHistory.canGoBack()) {
+      entry.view.webContents.navigationHistory.goBack();
+    }
+  }
+
   getSlotWebContents(slotId: SlotId): Electron.WebContents | null {
     const entry = this.panels.get(slotId);
     return entry?.view.webContents ?? null;
