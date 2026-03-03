@@ -65,9 +65,50 @@ TalkBoard ships with three default slots: **GPT**, **Gemini**, and **Claude**. Y
 | **Parallel** | All slots receive the prompt simultaneously. Responses are collected independently. |
 | **Reactive** | Each slot responds to the immediately preceding answer, forming a chain of reactions. |
 
+### Auto / Semi-Auto Mode
+
+| Mode | Text Input | Send | Response Capture |
+|------|-----------|------|-----------------|
+| **Auto** (default) | Automatic | Automatic | Automatic |
+| **Semi-Auto** | Automatic | **Manual click by user** | Automatic |
+
+Check the **반자동** (Semi-Auto) checkbox in the control bar to enable semi-auto mode.
+
+- The prompt is automatically filled into each panel's input field.
+- The active panel is highlighted with an **orange pulsing border**.
+- The user reviews the content and **clicks the send button manually**.
+- Response capture proceeds automatically after sending.
+
+Semi-auto mode waits indefinitely until the user sends, allowing you to review and edit each message before submission.
+
 ### Search
 
 Use the search bar in the control panel to perform full-text search across your entire debate history. Results link directly to the relevant session and round.
+
+---
+
+## Disclaimer & Service Policies
+
+TalkBoard loads the **actual web pages** of each AI service inside Electron WebContentsView panels and uses DOM manipulation to inject prompts and capture responses. This is functionally equivalent to browser automation tools (Selenium, Puppeteer, etc.).
+
+### Terms of Service (ToS)
+
+| Service | ToS Summary | Risk Level |
+|---------|------------|------------|
+| **OpenAI (ChatGPT)** | Prohibits access via automated means | Medium |
+| **Google (Gemini)** | Prohibits use of automated tools | Medium |
+| **Anthropic (Claude)** | Similar automated access restrictions | Medium |
+
+### Recommendations
+
+- **Use semi-auto mode**: Only the text input is automated; the user manually clicks send, reducing the automation footprint.
+- **Avoid excessive usage**: Sending too many requests in a short period may trigger rate limits or account restrictions.
+- **Personal use only**: Use TalkBoard for personal learning, comparison, and research — not for commercial-scale automation.
+- **Official API alternative**: For strict ToS compliance, consider using each service's official API (requires separate API keys and costs).
+
+> **Disclaimer**: TalkBoard is an open-source tool. Users are responsible for complying with the terms of service of each AI provider they use through this application.
+
+---
 
 ## Data Storage
 
