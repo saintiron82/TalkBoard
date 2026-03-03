@@ -35,9 +35,9 @@
 
 ---
 
-## 스크린샷
+## 데모 영상
 
-<!-- 스크린샷을 여기에 추가하세요 -->
+[![TalkBoard Demo](https://img.youtube.com/vi/JPaEYUlZvHM/maxresdefault.jpg)](https://www.youtube.com/watch?v=JPaEYUlZvHM)
 
 ---
 

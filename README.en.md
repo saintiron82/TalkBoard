@@ -17,9 +17,9 @@
 - **5-Layer capture stabilization** -- A robust pipeline (debounce, streaming check, readySignals, text stability, post-delay) ensures responses are captured only after generation is fully complete.
 - **Zero runtime dependencies** -- Only dev dependencies (Electron, TypeScript, @types/node). The production bundle ships lean.
 
-## Screenshots
+## Demo
 
-<!-- Add screenshots here -->
+[![TalkBoard Demo](https://img.youtube.com/vi/JPaEYUlZvHM/maxresdefault.jpg)](https://www.youtube.com/watch?v=JPaEYUlZvHM)
 
 ## Quick Start
 
