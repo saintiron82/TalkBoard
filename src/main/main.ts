@@ -1,13 +1,12 @@
-import { app, BaseWindow } from "electron";
+import { app, BaseWindow, Menu } from "electron";
 import { PanelManager } from "./panel-manager";
 import { Orchestrator } from "./orchestrator";
 import { registerIpcHandlers } from "./ipc-handlers";
+import { buildAppMenu } from "./menu";
 import { readdirSync, unlinkSync } from "fs";
 import path from "path";
 
-// Ensure consistent userData path regardless of launch method
-// (npx electron dist/main/main.js vs electron .)
-app.name = "talkagent-electron";
+app.name = "TalkBoard";
 
 // Prevent EPIPE crashes when stdout/stderr pipe is broken
 // (e.g., launching from Finder, piped processes, or terminal closed)
@@ -55,7 +54,7 @@ function removeLockFiles(dir: string): void {
       } else if (entry.name === "LOCK") {
         try {
           unlinkSync(fullPath);
-          console.log(`[TalkAgent] Removed stale lock: ${fullPath}`);
+          console.log(`[TalkBoard] Removed stale lock: ${fullPath}`);
         } catch { /* in use = not stale */ }
       }
     }
@@ -68,7 +67,8 @@ async function createWindow(): Promise<void> {
     height: 1000,
     minWidth: 900,
     minHeight: 600,
-    title: "TalkAgent — Multi-Panel Debate",
+    title: "TalkBoard",
+    icon: path.join(__dirname, "../../resources/icon.png"),
   });
 
   panelManager = new PanelManager(mainWindow);
@@ -76,6 +76,8 @@ async function createWindow(): Promise<void> {
 
   const orchestrator = new Orchestrator(panelManager);
   registerIpcHandlers(orchestrator, panelManager);
+
+  Menu.setApplicationMenu(buildAppMenu(orchestrator, panelManager));
 
   mainWindow.on("closed", () => {
     panelManager?.destroy();
@@ -85,9 +87,9 @@ async function createWindow(): Promise<void> {
 }
 
 app.whenReady().then(async () => {
-  console.log("[TalkAgent] Cleaning stale locks...");
+  console.log("[TalkBoard] Cleaning stale locks...");
   cleanStaleLocks();
-  console.log("[TalkAgent] Creating window...");
+  console.log("[TalkBoard] Creating window...");
   await createWindow();
 });
 
