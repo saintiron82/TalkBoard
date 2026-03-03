@@ -19,7 +19,7 @@
 
 ## Demo
 
-[![TalkBoard Demo](https://img.youtube.com/vi/JPaEYUlZvHM/maxresdefault.jpg)](https://www.youtube.com/watch?v=JPaEYUlZvHM)
+[![TalkBoard Demo](https://img.youtube.com/vi/6q872izioog/maxresdefault.jpg)](https://youtu.be/6q872izioog)
 
 ## Quick Start
 
